@@ -1,0 +1,56 @@
+# Environment
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Data
+data/raw/
+data/processed/
+data/demo_cases/
+uploads/
+temp/
+
+# Models / weights
+models/
+*.pt
+*.pth
+*.onnx
+*.ckpt
+*.h5
+*.pkl
+
+# Outputs
+outputs/
+logs/
+*.log
+reports/generated/
+risk_results/
+visualizations/
+
+# Database
+*.db
+*.sqlite3
+
+# Notebooks checkpoint
+.ipynb_checkpoints/
+
+# Docker / cache
+.docker/
+.cache/
+
+# Frontend
+node_modules/
+dist/
+build/
+
+# Streamlit
+.streamlit/secrets.toml
