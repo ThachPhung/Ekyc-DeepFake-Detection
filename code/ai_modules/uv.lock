@@ -1,0 +1,8 @@
+version = 1
+revision = 3
+requires-python = ">=3.10"
+
+[[package]]
+name = "ekyc-document-ai"
+version = "1.0.0"
+source = { virtual = "." }

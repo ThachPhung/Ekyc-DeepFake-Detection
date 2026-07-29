@@ -1,0 +1,18 @@
+{
+  "record_id": "a0a73e5b-09d0-4a18-b922-6d5536e90731",
+  "created_at": "2026-07-05T07:48:54+00:00",
+  "document_type": "CCCD",
+  "side": "both",
+  "ocr_confidence": 0.9586,
+  "image_quality_score": 0.722,
+  "fields": {
+    "full_name": "Lương Quốc Đoàn",
+    "document_number": "031201000716",
+    "date_of_birth": "30/05/2001",
+    "place_of_origin": "Đông Thanh, Kim Động, Hưng Yên",
+    "place_of_residence": "Thánh Tông, Máy Chai, Ngô Quyền, Hải Phòng",
+    "issue_date": "29/09/2020",
+    "issue_place": "Cục Cảnh sát quản lý hành chính về trật tự xã hội",
+    "expiry_date": "30/05/2026"
+  }
+}

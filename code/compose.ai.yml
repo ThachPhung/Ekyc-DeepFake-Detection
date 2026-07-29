@@ -1,0 +1,51 @@
+services:
+  lipsync-deepfake:
+    build:
+      context: .
+      dockerfile: deepfake_lipsync/Dockerfile
+    image: ekyc-lipsync:latest
+    container_name: ekyc-lipsync
+    ports:
+      - "8002:8002"
+    environment:
+      DEVICE: ${EKYC_LIPSYNC_DEVICE:-cpu}
+      HF_WEIGHTS_REPO: ${EKYC_LIPSYNC_HF_REPO:-lithiumice/syncnet}
+      SYNCNET_MIN_TRACK: ${EKYC_LIPSYNC_MIN_TRACK:-30}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 180s
+
+  ai-modules:
+    build:
+      context: .
+      dockerfile: ai_modules/Dockerfile
+    image: ekyc-ai:latest
+    container_name: ekyc-ai
+    ports:
+      - "8001:8001"
+    env_file:
+      - ${APP_ENV_FILE:-../.env}
+    depends_on:
+      lipsync-deepfake:
+        condition: service_started
+    environment:
+      # Chỉ override đường dẫn trong container; secrets/LLM lấy từ env_file ../.env
+      EKYC_MODELS_DIR: /app/models
+      EKYC_PRIVATE_STORAGE_DIR: /app/data/private
+      EKYC_MINIFASNET_ONNX_PATH: /app/models/minifasnet.onnx
+      EKYC_DEEPFAKE_ONNX_PATH: /app/models/deepfake_detector.onnx
+      EKYC_YOLO_LAYOUT_MODEL: /app/models/cccd_layout_yolov11.pt
+      EKYC_LIPSYNC_SERVICE_URL: http://lipsync-deepfake:8002
+    volumes:
+      - ./models:/app/models
+      - ./data/private:/app/data/private
+      - ./data/record:/app/data/record
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 120s

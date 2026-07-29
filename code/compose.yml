@@ -1,0 +1,479 @@
+services:
+
+  db:
+    image: postgres:18
+    restart: always
+    env_file:
+      - ${APP_ENV_FILE:-config/.env.local}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    volumes:
+      - app-db-data:/var/lib/postgresql/data/pgdata
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
+      - POSTGRES_USER=${POSTGRES_USER?Variable not set}
+      - POSTGRES_DB=${POSTGRES_DB?Variable not set}
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      - traefik-public
+      - default
+    depends_on:
+      - db
+    environment:
+      - ADMINER_DESIGN=pepa-linha-dark
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.constraint-label=traefik-public
+      - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-http.rule=Host(`adminer.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-http.entrypoints=http
+      - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-http.middlewares=https-redirect
+      - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-https.rule=Host(`adminer.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-https.entrypoints=https
+      - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-https.tls=true
+      - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-https.tls.certresolver=le
+      - traefik.http.services.${STACK_NAME?Variable not set}-adminer.loadbalancer.server.port=8080
+
+  prestart:
+    image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
+    env_file:
+      - ${APP_ENV_FILE:-config/.env.local}
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    networks:
+      - traefik-public
+      - default
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    command: bash scripts/prestart.sh
+    environment:
+      - DOMAIN=${DOMAIN}
+      - FRONTEND_HOST=${FRONTEND_HOST?Variable not set}
+      - FRONTEND_URL=${FRONTEND_URL:-}
+      - BACKEND_URL=${BACKEND_URL:-}
+      - ENVIRONMENT=${ENVIRONMENT}
+      - PROJECT_NAME=${PROJECT_NAME?Variable not set}
+      - BACKEND_CORS_ORIGINS=${BACKEND_CORS_ORIGINS:-}
+      - SECRET_KEY=${SECRET_KEY?Variable not set}
+      - FIRST_SUPERUSER=${FIRST_SUPERUSER?Variable not set}
+      - FIRST_SUPERUSER_PASSWORD=${FIRST_SUPERUSER_PASSWORD?Variable not set}
+      - SMTP_HOST=${SMTP_HOST:-}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_TLS=${SMTP_TLS:-True}
+      - SMTP_SSL=${SMTP_SSL:-False}
+      - SMTP_USER=${SMTP_USER:-}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-}
+      - EMAILS_FROM_EMAIL=${EMAILS_FROM_EMAIL:-}
+      - EMAILS_FROM_NAME=${EMAILS_FROM_NAME:-}
+      - POSTGRES_SERVER=db
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER?Variable not set}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
+      - SENTRY_DSN=${SENTRY_DSN}
+      - EKYC_AI_SERVICE_URL=http://ai-modules:8001
+      - EKYC_AI_REQUEST_TIMEOUT_SECONDS=${EKYC_AI_REQUEST_TIMEOUT_SECONDS:-90}
+      - EKYC_INTERNAL_API_KEY=${EKYC_INTERNAL_API_KEY:-}
+      - REDIS_URL=redis://redis:6379/0
+      - EKYC_QUEUE_NAME=${EKYC_QUEUE_NAME:-ekyc:ocr:jobs}
+      - UPLOAD_DIR=/app/uploads/ekyc
+      - MAX_UPLOAD_SIZE_MB=${MAX_UPLOAD_SIZE_MB:-5}
+      - MAX_VIDEO_UPLOAD_SIZE_MB=${MAX_VIDEO_UPLOAD_SIZE_MB:-10}
+      - AI_MODEL_VERSION=${AI_MODEL_VERSION:-ocr-id-card-two-sides-v1}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
+      - FACEBOOK_CLIENT_ID=${FACEBOOK_CLIENT_ID:-}
+      - FACEBOOK_CLIENT_SECRET=${FACEBOOK_CLIENT_SECRET:-}
+      - MICROSOFT_CLIENT_ID=${MICROSOFT_CLIENT_ID:-}
+      - MICROSOFT_CLIENT_SECRET=${MICROSOFT_CLIENT_SECRET:-}
+      - MICROSOFT_TENANT_ID=${MICROSOFT_TENANT_ID:-common}
+      - OAUTH_STATE_SECRET=${OAUTH_STATE_SECRET:-}
+
+  backend:
+    image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
+    restart: always
+    env_file:
+      - ${APP_ENV_FILE:-config/.env.local}
+      - path: secrets/ekyc_pii.env
+        required: false
+    networks:
+      - traefik-public
+      - default
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+      redis:
+        condition: service_healthy
+        restart: true
+      prestart:
+        condition: service_completed_successfully
+    environment:
+      - DOMAIN=${DOMAIN}
+      - FRONTEND_HOST=${FRONTEND_HOST?Variable not set}
+      - FRONTEND_URL=${FRONTEND_URL:-}
+      - BACKEND_URL=${BACKEND_URL:-}
+      - ENVIRONMENT=${ENVIRONMENT}
+      - PROJECT_NAME=${PROJECT_NAME?Variable not set}
+      - BACKEND_CORS_ORIGINS=${BACKEND_CORS_ORIGINS:-}
+      - SECRET_KEY=${SECRET_KEY?Variable not set}
+      - FIRST_SUPERUSER=${FIRST_SUPERUSER?Variable not set}
+      - FIRST_SUPERUSER_PASSWORD=${FIRST_SUPERUSER_PASSWORD?Variable not set}
+      - SMTP_HOST=${SMTP_HOST:-}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_TLS=${SMTP_TLS:-True}
+      - SMTP_SSL=${SMTP_SSL:-False}
+      - SMTP_USER=${SMTP_USER:-}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-}
+      - EMAILS_FROM_EMAIL=${EMAILS_FROM_EMAIL:-}
+      - EMAILS_FROM_NAME=${EMAILS_FROM_NAME:-}
+      - POSTGRES_SERVER=db
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER?Variable not set}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
+      - SENTRY_DSN=${SENTRY_DSN}
+      - EKYC_AI_SERVICE_URL=http://ai-modules:8001
+      - EKYC_AI_REQUEST_TIMEOUT_SECONDS=${EKYC_AI_REQUEST_TIMEOUT_SECONDS:-90}
+      - EKYC_INTERNAL_API_KEY=${EKYC_INTERNAL_API_KEY:-}
+      - EKYC_PRIVATE_STORAGE_DIR=/app/data/private
+      - REDIS_URL=redis://redis:6379/0
+      - EKYC_QUEUE_NAME=${EKYC_QUEUE_NAME:-ekyc:ocr:jobs}
+      - UPLOAD_DIR=/app/uploads/ekyc
+      - MAX_UPLOAD_SIZE_MB=${MAX_UPLOAD_SIZE_MB:-5}
+      - MAX_VIDEO_UPLOAD_SIZE_MB=${MAX_VIDEO_UPLOAD_SIZE_MB:-10}
+      - AI_MODEL_VERSION=${AI_MODEL_VERSION:-ocr-id-card-two-sides-v1}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
+      - FACEBOOK_CLIENT_ID=${FACEBOOK_CLIENT_ID:-}
+      - FACEBOOK_CLIENT_SECRET=${FACEBOOK_CLIENT_SECRET:-}
+      - MICROSOFT_CLIENT_ID=${MICROSOFT_CLIENT_ID:-}
+      - MICROSOFT_CLIENT_SECRET=${MICROSOFT_CLIENT_SECRET:-}
+      - MICROSOFT_TENANT_ID=${MICROSOFT_TENANT_ID:-common}
+      - OAUTH_STATE_SECRET=${OAUTH_STATE_SECRET:-}
+    volumes:
+      - app-ai-private-data:/app/data/private
+      - app-ekyc-uploads:/app/uploads
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/utils/health-check/', timeout=5)",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.constraint-label=traefik-public
+
+      - traefik.http.services.${STACK_NAME?Variable not set}-backend.loadbalancer.server.port=8000
+
+      - traefik.http.routers.${STACK_NAME?Variable not set}-backend-http.rule=Host(`api.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.${STACK_NAME?Variable not set}-backend-http.entrypoints=http
+
+      - traefik.http.routers.${STACK_NAME?Variable not set}-backend-https.rule=Host(`api.${DOMAIN?Variable not set}`)
+      - traefik.http.routers.${STACK_NAME?Variable not set}-backend-https.entrypoints=https
+      - traefik.http.routers.${STACK_NAME?Variable not set}-backend-https.tls=true
+      - traefik.http.routers.${STACK_NAME?Variable not set}-backend-https.tls.certresolver=le
+
+      # Enable redirection for HTTP and HTTPS
+      - traefik.http.routers.${STACK_NAME?Variable not set}-backend-http.middlewares=https-redirect
+
+  lipsync-deepfake:
+    build:
+      context: .
+      dockerfile: deepfake_lipsync/Dockerfile
+    image: '${DOCKER_IMAGE_LIPSYNC-ekyc-lipsync}:${TAG-latest}'
+    restart: always
+    environment:
+      DEVICE: ${EKYC_LIPSYNC_DEVICE:-cpu}
+      HF_WEIGHTS_REPO: ${EKYC_LIPSYNC_HF_REPO:-lithiumice/syncnet}
+      SYNCNET_MIN_TRACK: ${EKYC_LIPSYNC_MIN_TRACK:-30}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 180s
+
+  ai-modules:
+    image: '${DOCKER_IMAGE_AI_MODULES-ai-modules}:${TAG-latest}'
+    restart: always
+    depends_on:
+      lipsync-deepfake:
+        condition: service_started
+    env_file:
+      - ${APP_ENV_FILE:-config/.env.local}
+    environment:
+      - EKYC_PRIVATE_STORAGE_DIR=/app/data/private
+      - EKYC_MODELS_DIR=/app/models
+      - EKYC_USE_YOLO_LAYOUT_PIPELINE=${EKYC_USE_YOLO_LAYOUT_PIPELINE:-true}
+      - EKYC_YOLO_LAYOUT_MODEL=/app/models/cccd_layout_yolov11.pt
+      - EKYC_YOLO_LAYOUT_CONF=${EKYC_YOLO_LAYOUT_CONF:-0.35}
+      - EKYC_DOCUMENT_WARP=${EKYC_DOCUMENT_WARP:-true}
+      - EKYC_MINIFASNET_ONNX_PATH=/app/models/minifasnet.onnx
+      - EKYC_MINIFASNET_INT8_ONNX_PATH=/app/models/minifasnet_v2se_int8.onnx
+      - EKYC_DEEPFAKE_ONNX_PATH=/app/models/deepfake_detector.onnx
+      - EKYC_DEEPFAKE_PREPROCESS=${EKYC_DEEPFAKE_PREPROCESS:-hf_vit}
+      - EKYC_PRIVATE_STORAGE_KEY=${EKYC_PRIVATE_STORAGE_KEY?Variable not set}
+      - EKYC_INTERNAL_API_KEY=${EKYC_INTERNAL_API_KEY?Variable not set}
+      - EKYC_CORS_ORIGINS=${EKYC_CORS_ORIGINS-*}
+      - EKYC_OCR_ENGINE=${EKYC_OCR_ENGINE:-rapidocr_ppocrv6}
+      - EKYC_RAPIDOCR_REC_MODEL=${EKYC_RAPIDOCR_REC_MODEL:-vi}
+      - EKYC_RAPIDOCR_LANG=${EKYC_RAPIDOCR_LANG:-vi}
+      - EKYC_OCR_PREPROCESS=${EKYC_OCR_PREPROCESS:-true}
+      - EKYC_AUTO_ORIENT=${EKYC_AUTO_ORIENT:-true}
+      - EKYC_AUTO_ORIENT_PORTRAIT_RATIO=${EKYC_AUTO_ORIENT_PORTRAIT_RATIO:-1.05}
+      - EKYC_AUTO_ORIENT_PROBE_MAX_SIDE=${EKYC_AUTO_ORIENT_PROBE_MAX_SIDE:-1600}
+      - EKYC_LLM_EXTRACT=${EKYC_LLM_EXTRACT:-true}
+      - EKYC_LLM_MODE=${EKYC_LLM_MODE:-always}
+      - EKYC_LLM_REVIEW=${EKYC_LLM_REVIEW:-true}
+      - EKYC_LLM_PROVIDER=${EKYC_LLM_PROVIDER:-openai}
+      - EKYC_LLM_MODEL=${EKYC_LLM_MODEL:-gpt-5.4-mini}
+      - EKYC_LLM_BASE_URL=${EKYC_LLM_BASE_URL:-}
+      - EKYC_LLM_TIMEOUT_SECONDS=${EKYC_LLM_TIMEOUT_SECONDS:-45}
+      - EKYC_LLM_FALLBACK_MIN_OCR_CONF=${EKYC_LLM_FALLBACK_MIN_OCR_CONF:-0.88}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - EKYC_PREFER_ONNX=${EKYC_PREFER_ONNX:-true}
+      - EKYC_REQUIRE_ONNX_MODELS=${EKYC_REQUIRE_ONNX_MODELS:-true}
+      - EKYC_ALLOW_HEURISTIC_FALLBACK=${EKYC_ALLOW_HEURISTIC_FALLBACK:-false}
+      - EKYC_FACE_DETECTOR=${EKYC_FACE_DETECTOR:-insightface}
+      - EKYC_INSIGHTFACE_MODEL=${EKYC_INSIGHTFACE_MODEL:-buffalo_l}
+      - EKYC_MIN_QUALITY_SCORE=${EKYC_MIN_QUALITY_SCORE:-0.5}
+      - EKYC_MIN_DOCUMENT_FACE_CONFIDENCE=${EKYC_MIN_DOCUMENT_FACE_CONFIDENCE:-0.55}
+      - EKYC_USE_GPU=${EKYC_USE_GPU:-false}
+      - EKYC_FACE_MATCH_THRESHOLD=${EKYC_FACE_MATCH_THRESHOLD:-0.45}
+      - EKYC_FACE_CONSIDER_THRESHOLD=${EKYC_FACE_CONSIDER_THRESHOLD:-0.30}
+      - EKYC_MIN_FACE_QUALITY_SCORE=${EKYC_MIN_FACE_QUALITY_SCORE:-0.55}
+      - EKYC_MIN_LIVENESS_SCORE=${EKYC_MIN_LIVENESS_SCORE:-0.65}
+      - EKYC_MIN_MANUAL_LIVENESS_SCORE=${EKYC_MIN_MANUAL_LIVENESS_SCORE:-0.45}
+      - EKYC_MIN_FACE_COVERAGE=${EKYC_MIN_FACE_COVERAGE:-0.08}
+      - EKYC_MAX_FACE_COVERAGE=${EKYC_MAX_FACE_COVERAGE:-0.65}
+      - EKYC_MINIFASNET_CROP_SCALE=${EKYC_MINIFASNET_CROP_SCALE:-2.7}
+      - EKYC_SKIP_ACTIVE_LIVENESS=${EKYC_SKIP_ACTIVE_LIVENESS:-false}
+      - EKYC_DEFAULT_LIVENESS_CHALLENGE=${EKYC_DEFAULT_LIVENESS_CHALLENGE:-blink}
+      - EKYC_ACTIVE_LIVENESS_CHALLENGES=${EKYC_ACTIVE_LIVENESS_CHALLENGES:-turn_left,turn_right,look_up,look_down,blink}
+      - EKYC_ADAPTIVE_VIDEO_SAMPLING=${EKYC_ADAPTIVE_VIDEO_SAMPLING:-true}
+      - EKYC_TARGET_VIDEO_SAMPLES=${EKYC_TARGET_VIDEO_SAMPLES:-36}
+      - EKYC_MAX_VIDEO_FRAMES=${EKYC_MAX_VIDEO_FRAMES:-90}
+      - EKYC_VIDEO_FRAME_STRIDE=${EKYC_VIDEO_FRAME_STRIDE:-5}
+      - EKYC_MIN_VIDEO_FACE_FRAMES=${EKYC_MIN_VIDEO_FACE_FRAMES:-8}
+      - EKYC_DEEPFAKE_SUSPICIOUS_THRESHOLD=${EKYC_DEEPFAKE_SUSPICIOUS_THRESHOLD:-0.68}
+      - EKYC_IDENTITY_DRIFT_THRESHOLD=${EKYC_IDENTITY_DRIFT_THRESHOLD:-0.22}
+      - EKYC_REPLAY_SUSPICIOUS_THRESHOLD=${EKYC_REPLAY_SUSPICIOUS_THRESHOLD:-0.62}
+      - EKYC_CAMERA_INJECTION_SUSPICIOUS_THRESHOLD=${EKYC_CAMERA_INJECTION_SUSPICIOUS_THRESHOLD:-0.60}
+      - EKYC_VIDEO_RISK_REVIEW_THRESHOLD=${EKYC_VIDEO_RISK_REVIEW_THRESHOLD:-0.45}
+      - EKYC_VIDEO_RISK_BLOCK_THRESHOLD=${EKYC_VIDEO_RISK_BLOCK_THRESHOLD:-0.72}
+      - EKYC_VIDEO_RISK_WEIGHTS=${EKYC_VIDEO_RISK_WEIGHTS:-}
+      - EKYC_LIPSYNC_SERVICE_URL=http://lipsync-deepfake:8002
+      - EKYC_LIPSYNC_ENABLED=${EKYC_LIPSYNC_ENABLED:-true}
+      - EKYC_SPEECH_ENABLED=${EKYC_SPEECH_ENABLED:-true}
+      - EKYC_SPEECH_ENGINE=${EKYC_SPEECH_ENGINE:-vistream_phowhisper}
+      - EKYC_SPEECH_CHUNK_SIZE_MS=${EKYC_SPEECH_CHUNK_SIZE_MS:-640}
+      - EKYC_SPEECH_VAD_ENABLED=${EKYC_SPEECH_VAD_ENABLED:-true}
+      - EKYC_SPEECH_REFINE_PHOWHISPER=${EKYC_SPEECH_REFINE_PHOWHISPER:-true}
+      - EKYC_PHOWHISPER_MODEL=${EKYC_PHOWHISPER_MODEL:-vinai/PhoWhisper-small}
+      - EKYC_WHISPER_MODEL_SIZE=${EKYC_WHISPER_MODEL_SIZE:-small}
+      - EKYC_SPEECH_SAMPLE_RATE=${EKYC_SPEECH_SAMPLE_RATE:-16000}
+      - EKYC_VOICE_WER_PASS_THRESHOLD=${EKYC_VOICE_WER_PASS_THRESHOLD:-0.25}
+      - EKYC_VOICE_WER_CONSIDER_THRESHOLD=${EKYC_VOICE_WER_CONSIDER_THRESHOLD:-0.40}
+      - EKYC_VOICE_MISMATCH_RISK_THRESHOLD=${EKYC_VOICE_MISMATCH_RISK_THRESHOLD:-0.40}
+      - EKYC_MIN_AUDIO_RMS=${EKYC_MIN_AUDIO_RMS:-0.008}
+      - EKYC_MIN_AUDIO_DURATION_MS=${EKYC_MIN_AUDIO_DURATION_MS:-800}
+      - EKYC_MIN_SPEECH_RATIO=${EKYC_MIN_SPEECH_RATIO:-0.12}
+    volumes:
+      - ./models:/app/models
+      - app-ai-private-data:/app/data/private
+    build:
+      context: .
+      dockerfile: ai_modules/Dockerfile
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+
+  ai-worker:
+    image: '${DOCKER_IMAGE_AI_MODULES-ai-modules}:${TAG-latest}'
+    restart: always
+    command: python -m worker.ekyc_worker
+    env_file:
+      - ${APP_ENV_FILE:-config/.env.local}
+      - path: secrets/ekyc_pii.env
+        required: false
+    healthcheck:
+      disable: true
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+      redis:
+        condition: service_healthy
+        restart: true
+    environment:
+      - POSTGRES_SERVER=db
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER?Variable not set}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
+      - REDIS_URL=redis://redis:6379/0
+      - EKYC_QUEUE_NAME=${EKYC_QUEUE_NAME:-ekyc:ocr:jobs}
+      - EKYC_WORKER_MAX_RETRIES=${EKYC_WORKER_MAX_RETRIES:-3}
+      - EKYC_WORKER_RETRY_DELAY_SECONDS=${EKYC_WORKER_RETRY_DELAY_SECONDS:-2}
+      - AI_MODEL_VERSION=${AI_MODEL_VERSION:-ocr-id-card-two-sides-v1}
+      - EKYC_PRIVATE_STORAGE_DIR=/app/data/private
+      - EKYC_MODELS_DIR=/app/models
+      - EKYC_USE_YOLO_LAYOUT_PIPELINE=${EKYC_USE_YOLO_LAYOUT_PIPELINE:-true}
+      - EKYC_YOLO_LAYOUT_MODEL=/app/models/cccd_layout_yolov11.pt
+      - EKYC_YOLO_LAYOUT_CONF=${EKYC_YOLO_LAYOUT_CONF:-0.35}
+      - EKYC_DOCUMENT_WARP=${EKYC_DOCUMENT_WARP:-true}
+      - EKYC_MINIFASNET_ONNX_PATH=/app/models/minifasnet.onnx
+      - EKYC_MINIFASNET_INT8_ONNX_PATH=/app/models/minifasnet_v2se_int8.onnx
+      - EKYC_DEEPFAKE_ONNX_PATH=/app/models/deepfake_detector.onnx
+      - EKYC_DEEPFAKE_PREPROCESS=${EKYC_DEEPFAKE_PREPROCESS:-hf_vit}
+      - EKYC_PRIVATE_STORAGE_KEY=${EKYC_PRIVATE_STORAGE_KEY?Variable not set}
+      - EKYC_INTERNAL_API_KEY=${EKYC_INTERNAL_API_KEY?Variable not set}
+      - EKYC_OCR_ENGINE=${EKYC_OCR_ENGINE:-rapidocr_ppocrv6}
+      - EKYC_RAPIDOCR_REC_MODEL=${EKYC_RAPIDOCR_REC_MODEL:-vi}
+      - EKYC_RAPIDOCR_LANG=${EKYC_RAPIDOCR_LANG:-vi}
+      - EKYC_OCR_PREPROCESS=${EKYC_OCR_PREPROCESS:-true}
+      - EKYC_AUTO_ORIENT=${EKYC_AUTO_ORIENT:-true}
+      - EKYC_AUTO_ORIENT_PORTRAIT_RATIO=${EKYC_AUTO_ORIENT_PORTRAIT_RATIO:-1.05}
+      - EKYC_AUTO_ORIENT_PROBE_MAX_SIDE=${EKYC_AUTO_ORIENT_PROBE_MAX_SIDE:-1600}
+      - EKYC_LLM_EXTRACT=${EKYC_LLM_EXTRACT:-true}
+      - EKYC_LLM_MODE=${EKYC_LLM_MODE:-always}
+      - EKYC_LLM_REVIEW=${EKYC_LLM_REVIEW:-true}
+      - EKYC_LLM_PROVIDER=${EKYC_LLM_PROVIDER:-openai}
+      - EKYC_LLM_MODEL=${EKYC_LLM_MODEL:-gpt-5.4-mini}
+      - EKYC_LLM_BASE_URL=${EKYC_LLM_BASE_URL:-}
+      - EKYC_LLM_TIMEOUT_SECONDS=${EKYC_LLM_TIMEOUT_SECONDS:-45}
+      - EKYC_LLM_FALLBACK_MIN_OCR_CONF=${EKYC_LLM_FALLBACK_MIN_OCR_CONF:-0.88}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - EKYC_PREFER_ONNX=${EKYC_PREFER_ONNX:-true}
+      - EKYC_REQUIRE_ONNX_MODELS=${EKYC_REQUIRE_ONNX_MODELS:-true}
+      - EKYC_ALLOW_HEURISTIC_FALLBACK=${EKYC_ALLOW_HEURISTIC_FALLBACK:-false}
+      - EKYC_FACE_DETECTOR=${EKYC_FACE_DETECTOR:-insightface}
+      - EKYC_INSIGHTFACE_MODEL=${EKYC_INSIGHTFACE_MODEL:-buffalo_l}
+      - EKYC_MIN_QUALITY_SCORE=${EKYC_MIN_QUALITY_SCORE:-0.5}
+      - EKYC_MIN_DOCUMENT_FACE_CONFIDENCE=${EKYC_MIN_DOCUMENT_FACE_CONFIDENCE:-0.55}
+      - EKYC_USE_GPU=${EKYC_USE_GPU:-false}
+      - EKYC_FACE_MATCH_THRESHOLD=${EKYC_FACE_MATCH_THRESHOLD:-0.45}
+      - EKYC_FACE_CONSIDER_THRESHOLD=${EKYC_FACE_CONSIDER_THRESHOLD:-0.30}
+      - EKYC_MIN_FACE_QUALITY_SCORE=${EKYC_MIN_FACE_QUALITY_SCORE:-0.55}
+      - EKYC_MIN_LIVENESS_SCORE=${EKYC_MIN_LIVENESS_SCORE:-0.65}
+      - EKYC_MIN_MANUAL_LIVENESS_SCORE=${EKYC_MIN_MANUAL_LIVENESS_SCORE:-0.45}
+      - EKYC_MIN_FACE_COVERAGE=${EKYC_MIN_FACE_COVERAGE:-0.08}
+      - EKYC_MAX_FACE_COVERAGE=${EKYC_MAX_FACE_COVERAGE:-0.65}
+      - EKYC_MINIFASNET_CROP_SCALE=${EKYC_MINIFASNET_CROP_SCALE:-2.7}
+      - EKYC_SKIP_ACTIVE_LIVENESS=${EKYC_SKIP_ACTIVE_LIVENESS:-false}
+      - EKYC_DEFAULT_LIVENESS_CHALLENGE=${EKYC_DEFAULT_LIVENESS_CHALLENGE:-blink}
+      - EKYC_ACTIVE_LIVENESS_CHALLENGES=${EKYC_ACTIVE_LIVENESS_CHALLENGES:-turn_left,turn_right,look_up,look_down,blink}
+      - EKYC_ADAPTIVE_VIDEO_SAMPLING=${EKYC_ADAPTIVE_VIDEO_SAMPLING:-true}
+      - EKYC_TARGET_VIDEO_SAMPLES=${EKYC_TARGET_VIDEO_SAMPLES:-36}
+      - EKYC_MAX_VIDEO_FRAMES=${EKYC_MAX_VIDEO_FRAMES:-90}
+      - EKYC_VIDEO_FRAME_STRIDE=${EKYC_VIDEO_FRAME_STRIDE:-5}
+      - EKYC_MIN_VIDEO_FACE_FRAMES=${EKYC_MIN_VIDEO_FACE_FRAMES:-8}
+      - EKYC_DEEPFAKE_SUSPICIOUS_THRESHOLD=${EKYC_DEEPFAKE_SUSPICIOUS_THRESHOLD:-0.68}
+      - EKYC_IDENTITY_DRIFT_THRESHOLD=${EKYC_IDENTITY_DRIFT_THRESHOLD:-0.22}
+      - EKYC_REPLAY_SUSPICIOUS_THRESHOLD=${EKYC_REPLAY_SUSPICIOUS_THRESHOLD:-0.62}
+      - EKYC_CAMERA_INJECTION_SUSPICIOUS_THRESHOLD=${EKYC_CAMERA_INJECTION_SUSPICIOUS_THRESHOLD:-0.60}
+      - EKYC_VIDEO_RISK_REVIEW_THRESHOLD=${EKYC_VIDEO_RISK_REVIEW_THRESHOLD:-0.45}
+      - EKYC_VIDEO_RISK_BLOCK_THRESHOLD=${EKYC_VIDEO_RISK_BLOCK_THRESHOLD:-0.72}
+      - EKYC_VIDEO_RISK_WEIGHTS=${EKYC_VIDEO_RISK_WEIGHTS:-}
+      - EKYC_SPEECH_ENABLED=${EKYC_SPEECH_ENABLED:-true}
+      - EKYC_SPEECH_ENGINE=${EKYC_SPEECH_ENGINE:-vistream_phowhisper}
+      - EKYC_SPEECH_CHUNK_SIZE_MS=${EKYC_SPEECH_CHUNK_SIZE_MS:-640}
+      - EKYC_SPEECH_VAD_ENABLED=${EKYC_SPEECH_VAD_ENABLED:-true}
+      - EKYC_SPEECH_REFINE_PHOWHISPER=${EKYC_SPEECH_REFINE_PHOWHISPER:-true}
+      - EKYC_PHOWHISPER_MODEL=${EKYC_PHOWHISPER_MODEL:-vinai/PhoWhisper-small}
+      - EKYC_WHISPER_MODEL_SIZE=${EKYC_WHISPER_MODEL_SIZE:-small}
+      - EKYC_SPEECH_SAMPLE_RATE=${EKYC_SPEECH_SAMPLE_RATE:-16000}
+      - EKYC_VOICE_WER_PASS_THRESHOLD=${EKYC_VOICE_WER_PASS_THRESHOLD:-0.25}
+      - EKYC_VOICE_WER_CONSIDER_THRESHOLD=${EKYC_VOICE_WER_CONSIDER_THRESHOLD:-0.40}
+      - EKYC_VOICE_MISMATCH_RISK_THRESHOLD=${EKYC_VOICE_MISMATCH_RISK_THRESHOLD:-0.40}
+      - EKYC_MIN_AUDIO_RMS=${EKYC_MIN_AUDIO_RMS:-0.008}
+      - EKYC_MIN_AUDIO_DURATION_MS=${EKYC_MIN_AUDIO_DURATION_MS:-800}
+      - EKYC_MIN_SPEECH_RATIO=${EKYC_MIN_SPEECH_RATIO:-0.12}
+    volumes:
+      - ./models:/app/models
+      - app-ai-private-data:/app/data/private
+      - app-ekyc-uploads:/app/uploads
+  frontend:
+    image: '${DOCKER_IMAGE_FRONTEND?Variable not set}:${TAG-latest}'
+    restart: always
+    networks:
+      - traefik-public
+      - default
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://api.${DOMAIN?Variable not set}/api/v1}
+        - NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL:-https://api.${DOMAIN?Variable not set}}
+    environment:
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://api.${DOMAIN?Variable not set}/api/v1}
+      - NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL:-https://api.${DOMAIN?Variable not set}}
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.constraint-label=traefik-public
+
+      - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=3000
+
+      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.rule=Host(`${FRONTEND_DOMAIN?Variable not set}`)
+      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.entrypoints=http
+
+      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.rule=Host(`${FRONTEND_DOMAIN?Variable not set}`)
+      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.entrypoints=https
+      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.tls=true
+      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.tls.certresolver=le
+
+      # Enable redirection for HTTP and HTTPS
+      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.middlewares=https-redirect
+volumes:
+  app-db-data:
+  app-ai-private-data:
+  app-ekyc-uploads:
+
+networks:
+  traefik-public:
+    # Allow setting it to false for testing
+    external: true

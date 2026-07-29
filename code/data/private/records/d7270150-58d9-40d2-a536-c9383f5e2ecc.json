@@ -1,0 +1,790 @@
+{
+  "record_id": "d7270150-58d9-40d2-a536-c9383f5e2ecc",
+  "created_at": "2026-07-05T07:49:04+00:00",
+  "record_type": "ekyc-verify",
+  "payload": {
+    "success": true,
+    "decision": "match",
+    "similarity": 0.6147,
+    "front_document": {
+      "document_type": "CCCD",
+      "ocr_confidence": 0.9586,
+      "image_quality_score": 0.722,
+      "document_face_detected": true,
+      "document_face_confident": true,
+      "document_face_confidence": 0.9,
+      "warnings": [
+        "Pipeline: YOLO layout (cccd_layout_yolov11.pt)",
+        "Ảnh bị mờ (blur). Vui lòng chụp lại rõ nét hơn.",
+        "Độ tương phản thấp, chữ khó đọc.",
+        "LLM đã review tổng thể sau merge OCR (openai/gpt-5.4-mini).",
+        "LLM tokens: prompt=1262, completion=256, total=1518."
+      ],
+      "success": true,
+      "quality_details": {
+        "blur": 0.2316,
+        "brightness": 1.0,
+        "contrast": 0.3394,
+        "glare": 1.0,
+        "corners": 1.0,
+        "screenshot": 1.0
+      },
+      "parsed_fields": {
+        "id_number": "031201000716",
+        "full_name": "Lương Quốc Đoàn",
+        "date_of_birth": "30/05/2001",
+        "sex": "Nam",
+        "nationality": "Việt Nam",
+        "place_of_origin": "Đông Thanh, Kim Động, Hưng Yên",
+        "place_of_residence": "Thánh Tông, Máy Chai, Ngô Quyền, Hải Phòng",
+        "issue_date": "29/09/2020",
+        "issue_place": "Cục Cảnh sát quản lý hành chính về trật tự xã hội",
+        "expiry_date": "30/05/2026",
+        "license_class": null,
+        "passport_number": null,
+        "surname": null,
+        "given_names": null,
+        "extra": {},
+        "field_presence": {
+          "id_number": true,
+          "full_name": true,
+          "date_of_birth": true,
+          "sex": true,
+          "nationality": true,
+          "place_of_origin": true,
+          "place_of_residence": true,
+          "issue_date": true,
+          "issue_place": true,
+          "expiry_date": true,
+          "license_class": false,
+          "passport_number": false,
+          "surname": false,
+          "given_names": false
+        }
+      },
+      "face": {
+        "detected": true,
+        "bbox": [
+          20,
+          232,
+          302,
+          398
+        ],
+        "confidence": 0.95,
+        "quality_score": 0.9,
+        "confident": true,
+        "warnings": [
+          "Portrait lấy từ YOLO layout box."
+        ]
+      },
+      "ocr_line_count": 31,
+      "record_id": "a0a73e5b-09d0-4a18-b922-6d5536e90731",
+      "llm_usage": {
+        "extract": {
+          "stage": "extract",
+          "provider": "openai",
+          "model": "gpt-5.4-mini",
+          "prompt_tokens": 505,
+          "completion_tokens": 131,
+          "total_tokens": 636
+        },
+        "review": {
+          "stage": "review",
+          "provider": "openai",
+          "model": "gpt-5.4-mini",
+          "prompt_tokens": 757,
+          "completion_tokens": 125,
+          "total_tokens": 882
+        },
+        "total_prompt_tokens": 1262,
+        "total_completion_tokens": 256,
+        "total_tokens": 1518,
+        "call_count": 2
+      },
+      "timings_ms": {
+        "front_orient": 182.48,
+        "front_quality": 110.37,
+        "back_orient": 89.97,
+        "back_quality": 94.91,
+        "front_yolo_ocr": 5661.05,
+        "back_yolo_ocr": 1577.05,
+        "parse": 10.69,
+        "llm_extract": 1715.26,
+        "llm_review": 1433.18,
+        "total": 10941.89
+      }
+    },
+    "video": {
+      "success": true,
+      "decision": "match",
+      "frames_analyzed": 33,
+      "face_frames": 33,
+      "challenge": "blink",
+      "best_frame_index": 210,
+      "best_live_face": {
+        "detected": true,
+        "face_count": 1,
+        "bbox": [
+          124,
+          376,
+          226,
+          314
+        ],
+        "confidence": 0.8716,
+        "embedding_model": "insightface/buffalo_l",
+        "embedding_ready": true,
+        "portrait_ok": true
+      },
+      "quality_score": 0.9123,
+      "quality_details": {
+        "blur": 0.8875,
+        "pose": 0.9524,
+        "illumination": 1.0,
+        "face_coverage": 0.7925,
+        "centered": 0.8897
+      },
+      "passive_liveness": {
+        "score": 0.867,
+        "passed": true,
+        "method": "minifasnet_v2_se_int8",
+        "warnings": []
+      },
+      "active_liveness": [
+        {
+          "challenge": "blink",
+          "passed": true,
+          "confidence": 1.0
+        }
+      ],
+      "matching": {
+        "similarity": 0.6147,
+        "decision": "match",
+        "thresholds": {
+          "match": 0.6,
+          "consider": 0.4
+        },
+        "reason": "Độ tương đồng ArcFace đạt ngưỡng match."
+      },
+      "voice_verification": null,
+      "risk": {
+        "score": 0.1194,
+        "decision": "match",
+        "reason_codes": [],
+        "weights": {
+          "deepfake": 0.3334,
+          "identity": 0.2933,
+          "replay": 0.24,
+          "camera": 0.1333
+        },
+        "evidence": [
+          {
+            "signal": "deepfake",
+            "score": 0.0468,
+            "weight": 0.3334,
+            "contribution": 0.0156,
+            "threshold": 0.68,
+            "triggered": false,
+            "reason_code": "deepfake_frames",
+            "method": "deepfake_vit_onnx_hf_preprocess",
+            "evidence": {
+              "mean_score": 0.1208,
+              "max_score": 0.1684,
+              "suspicious_frame_count": 0,
+              "suspicious_frames": []
+            }
+          },
+          {
+            "signal": "identity",
+            "score": 0.2156,
+            "weight": 0.2933,
+            "contribution": 0.0632,
+            "threshold": 0.45,
+            "triggered": false,
+            "reason_code": "temporal_identity_drift",
+            "method": "arcface_embedding_drift",
+            "evidence": {
+              "mean_drift": 0.0516,
+              "max_drift": 0.109,
+              "suspicious_pair_count": 0,
+              "embedding_frames": 33
+            }
+          },
+          {
+            "signal": "replay",
+            "score": 0.1039,
+            "weight": 0.24,
+            "contribution": 0.0249,
+            "threshold": 0.62,
+            "triggered": false,
+            "reason_code": "replay_attack",
+            "method": null,
+            "evidence": {
+              "moire_score": 0.2207,
+              "flicker_score": 0.2225,
+              "duplication_score": 0.3375,
+              "duplicate_pairs": 26,
+              "confirmed": false,
+              "face_motion_score": 1.0
+            }
+          },
+          {
+            "signal": "camera",
+            "score": 0.1181,
+            "weight": 0.1333,
+            "contribution": 0.0157,
+            "threshold": 0.6,
+            "triggered": false,
+            "reason_code": "camera_injection",
+            "method": null,
+            "evidence": {
+              "metadata_score": 0.0,
+              "challenge_timing_score": 0.0,
+              "duplication_score": 0.3375
+            }
+          }
+        ],
+        "top_reasons": [],
+        "deepfake": {
+          "score": 0.0468,
+          "mean_score": 0.1208,
+          "max_score": 0.1684,
+          "suspicious_frame_count": 0,
+          "suspicious_frames": [],
+          "frames": [
+            {
+              "frame_index": 0,
+              "score": 0.1311,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 7,
+              "score": 0.1261,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 14,
+              "score": 0.1376,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 21,
+              "score": 0.1239,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 28,
+              "score": 0.1131,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 35,
+              "score": 0.1135,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 42,
+              "score": 0.1328,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 49,
+              "score": 0.1297,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 56,
+              "score": 0.126,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 63,
+              "score": 0.1519,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 70,
+              "score": 0.1227,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 77,
+              "score": 0.1167,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 84,
+              "score": 0.1294,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 91,
+              "score": 0.0882,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 98,
+              "score": 0.1007,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 105,
+              "score": 0.1315,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 112,
+              "score": 0.1403,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 119,
+              "score": 0.1324,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 126,
+              "score": 0.1218,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 133,
+              "score": 0.1254,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 140,
+              "score": 0.121,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 147,
+              "score": 0.0914,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 154,
+              "score": 0.098,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 161,
+              "score": 0.1011,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 168,
+              "score": 0.0851,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 175,
+              "score": 0.0932,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 182,
+              "score": 0.0854,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 189,
+              "score": 0.0992,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 196,
+              "score": 0.1104,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 203,
+              "score": 0.1684,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 210,
+              "score": 0.1558,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 217,
+              "score": 0.1396,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 224,
+              "score": 0.1435,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            }
+          ],
+          "method": "deepfake_vit_onnx_hf_preprocess",
+          "warnings": []
+        },
+        "temporal_identity": {
+          "score": 0.2156,
+          "mean_drift": 0.0516,
+          "max_drift": 0.109,
+          "suspicious_pair_count": 0,
+          "embedding_frames": 33,
+          "method": "arcface_embedding_drift",
+          "warnings": []
+        },
+        "replay_attack": {
+          "score": 0.1039,
+          "moire_score": 0.2207,
+          "flicker_score": 0.2225,
+          "duplication_score": 0.3375,
+          "duplicate_pairs": 26,
+          "confirmed": false,
+          "face_motion_score": 1.0,
+          "warnings": []
+        },
+        "camera_injection": {
+          "score": 0.1181,
+          "metadata_score": 0.0,
+          "challenge_timing_score": 0.0,
+          "duplication_score": 0.3375,
+          "warnings": []
+        },
+        "lipsync": null
+      },
+      "decision_reasons": [
+        {
+          "code": "all_checks_passed",
+          "message": "Tất cả kiểm tra chính đều đạt.",
+          "severity": "info",
+          "source": "biometric"
+        }
+      ],
+      "evidence_artifacts": {
+        "challenge": "blink",
+        "frames_sampled": 33,
+        "sampled_frame_indices": [
+          0,
+          7,
+          14,
+          21,
+          28,
+          35,
+          42,
+          49,
+          56,
+          63,
+          70,
+          77,
+          84,
+          91,
+          98,
+          105,
+          112,
+          119,
+          126,
+          133,
+          140,
+          147,
+          154,
+          161,
+          168,
+          175,
+          182,
+          189,
+          196,
+          203
+        ],
+        "face_frame_indices": [
+          0,
+          7,
+          14,
+          21,
+          28,
+          35,
+          42,
+          49,
+          56,
+          63,
+          70,
+          77,
+          84,
+          91,
+          98,
+          105,
+          112,
+          119,
+          126,
+          133,
+          140,
+          147,
+          154,
+          161,
+          168,
+          175,
+          182,
+          189,
+          196,
+          203
+        ],
+        "best_frame_index": 210,
+        "best_face_bbox": [
+          124,
+          376,
+          226,
+          314
+        ],
+        "video_metadata": {
+          "fps": 30.207128228813797,
+          "frame_count": 226,
+          "duration_ms": 7481.677777777778
+        },
+        "suspicious_frame_indices": [],
+        "top_risk_reasons": []
+      },
+      "timings_ms": {
+        "doc_face_detect": 329.53,
+        "frame_extract": 6379.47,
+        "liveness": 30.47,
+        "matching": 0.51,
+        "risk": 3306.95,
+        "total": 10047.08
+      },
+      "warnings": []
+    },
+    "ai_summary": {
+      "document": {
+        "document_type": "CCCD",
+        "ocr_confidence": 0.9586,
+        "image_quality_score": 0.722,
+        "document_face_detected": true,
+        "document_face_confident": true
+      },
+      "biometric": {
+        "quality_score": 0.9123,
+        "passive_liveness_score": 0.867,
+        "passive_liveness_passed": true,
+        "active_liveness": [
+          {
+            "challenge": "blink",
+            "passed": true,
+            "confidence": 1.0
+          }
+        ],
+        "face_similarity": 0.6147,
+        "face_match_decision": "match",
+        "voice_verification": null,
+        "decision_reasons": [
+          {
+            "code": "all_checks_passed",
+            "message": "Tất cả kiểm tra chính đều đạt.",
+            "severity": "info",
+            "source": "biometric"
+          }
+        ],
+        "evidence_artifacts": {
+          "challenge": "blink",
+          "frames_sampled": 33,
+          "sampled_frame_indices": [
+            0,
+            7,
+            14,
+            21,
+            28,
+            35,
+            42,
+            49,
+            56,
+            63,
+            70,
+            77,
+            84,
+            91,
+            98,
+            105,
+            112,
+            119,
+            126,
+            133,
+            140,
+            147,
+            154,
+            161,
+            168,
+            175,
+            182,
+            189,
+            196,
+            203
+          ],
+          "face_frame_indices": [
+            0,
+            7,
+            14,
+            21,
+            28,
+            35,
+            42,
+            49,
+            56,
+            63,
+            70,
+            77,
+            84,
+            91,
+            98,
+            105,
+            112,
+            119,
+            126,
+            133,
+            140,
+            147,
+            154,
+            161,
+            168,
+            175,
+            182,
+            189,
+            196,
+            203
+          ],
+          "best_frame_index": 210,
+          "best_face_bbox": [
+            124,
+            376,
+            226,
+            314
+          ],
+          "video_metadata": {
+            "fps": 30.207128228813797,
+            "frame_count": 226,
+            "duration_ms": 7481.677777777778
+          },
+          "suspicious_frame_indices": [],
+          "top_risk_reasons": []
+        }
+      },
+      "risk": {
+        "score": 0.1194,
+        "decision": "match",
+        "reason_codes": [],
+        "top_reasons": [],
+        "weights": {
+          "deepfake": 0.3334,
+          "identity": 0.2933,
+          "replay": 0.24,
+          "camera": 0.1333
+        },
+        "evidence": [
+          {
+            "signal": "deepfake",
+            "score": 0.0468,
+            "weight": 0.3334,
+            "contribution": 0.0156,
+            "threshold": 0.68,
+            "triggered": false,
+            "reason_code": "deepfake_frames",
+            "method": "deepfake_vit_onnx_hf_preprocess",
+            "evidence": {
+              "mean_score": 0.1208,
+              "max_score": 0.1684,
+              "suspicious_frame_count": 0,
+              "suspicious_frames": []
+            }
+          },
+          {
+            "signal": "identity",
+            "score": 0.2156,
+            "weight": 0.2933,
+            "contribution": 0.0632,
+            "threshold": 0.45,
+            "triggered": false,
+            "reason_code": "temporal_identity_drift",
+            "method": "arcface_embedding_drift",
+            "evidence": {
+              "mean_drift": 0.0516,
+              "max_drift": 0.109,
+              "suspicious_pair_count": 0,
+              "embedding_frames": 33
+            }
+          },
+          {
+            "signal": "replay",
+            "score": 0.1039,
+            "weight": 0.24,
+            "contribution": 0.0249,
+            "threshold": 0.62,
+            "triggered": false,
+            "reason_code": "replay_attack",
+            "method": null,
+            "evidence": {
+              "moire_score": 0.2207,
+              "flicker_score": 0.2225,
+              "duplication_score": 0.3375,
+              "duplicate_pairs": 26,
+              "confirmed": false,
+              "face_motion_score": 1.0
+            }
+          },
+          {
+            "signal": "camera",
+            "score": 0.1181,
+            "weight": 0.1333,
+            "contribution": 0.0157,
+            "threshold": 0.6,
+            "triggered": false,
+            "reason_code": "camera_injection",
+            "method": null,
+            "evidence": {
+              "metadata_score": 0.0,
+              "challenge_timing_score": 0.0,
+              "duplication_score": 0.3375
+            }
+          }
+        ]
+      }
+    },
+    "warnings": [
+      "Pipeline: YOLO layout (cccd_layout_yolov11.pt)",
+      "Ảnh bị mờ (blur). Vui lòng chụp lại rõ nét hơn.",
+      "Độ tương phản thấp, chữ khó đọc.",
+      "LLM đã review tổng thể sau merge OCR (openai/gpt-5.4-mini).",
+      "LLM tokens: prompt=1262, completion=256, total=1518."
+    ],
+    "timings_ms": {
+      "document_total": 10941.89,
+      "video_total": 10047.08,
+      "api_total": 20993.73
+    }
+  }
+}

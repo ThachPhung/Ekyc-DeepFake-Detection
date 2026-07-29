@@ -1,0 +1,18 @@
+{
+  "record_id": "c11edb54-cb33-4f26-8574-ab18ae20310d",
+  "created_at": "2026-07-02T17:15:42+00:00",
+  "document_type": "CCCD",
+  "side": "both",
+  "ocr_confidence": 0.9621,
+  "image_quality_score": 0.6898,
+  "fields": {
+    "full_name": "Phùng Văn Thạch",
+    "document_number": "038202012897",
+    "date_of_birth": "06/01/2002",
+    "place_of_origin": "Hoằng Hóa, Thanh Hóa",
+    "place_of_residence": "Thôn Bắc Sơn, Hồng Phú, Hoằng Hóa, Thanh Hóa",
+    "issue_date": "02/07/2020",
+    "issue_place": "Cục Cảnh sát quản lý hành chính về trật tự xã hội",
+    "expiry_date": "06/01/2027"
+  }
+}

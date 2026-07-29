@@ -1,0 +1,24 @@
+<mjml>
+  <mj-body background-color="#020617">
+    <mj-section background-color="#0f172a" border="1px solid rgba(96,165,250,0.32)" border-radius="16px 16px 0 0" padding="28px">
+      <mj-column>
+        <mj-text font-family="Arial, Helvetica, sans-serif" color="#22d3ee" font-size="12px" font-weight="700" letter-spacing="3px" text-transform="uppercase">Identity verified</mj-text>
+        <mj-text font-family="Arial, Helvetica, sans-serif" color="#ffffff" font-size="28px" font-weight="800" padding-top="6px">Your eKYC is approved</mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="#070b1d" border-left="1px solid rgba(96,165,250,0.32)" border-right="1px solid rgba(96,165,250,0.32)" padding="30px 28px">
+      <mj-column>
+        <mj-text font-family="Arial, Helvetica, sans-serif" color="#cbd5e1" font-size="16px" line-height="1.7">Hello {{ username }},</mj-text>
+        <mj-text font-family="Arial, Helvetica, sans-serif" color="#cbd5e1" font-size="16px" line-height="1.7">Your identity verification for {{ project_name }} has been approved. Verified account features are now available for your account.</mj-text>
+        <mj-button href="{{ link }}" background-color="#7c3aed" border="1px solid rgba(34,211,238,0.55)" border-radius="10px" color="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="16px" font-weight="800" padding="18px 0">View profile</mj-button>
+        <mj-text background-color="#0f172a" border="1px solid rgba(34,211,238,0.22)" border-radius="12px" font-family="Arial, Helvetica, sans-serif" color="#cbd5e1" font-size="14px" line-height="1.7"><strong style="color:#67e8f9;">Account status</strong><br />Verified identity checks are complete. Keep your account information up to date to avoid interruptions.</mj-text>
+        <mj-text font-family="Arial, Helvetica, sans-serif" color="#94a3b8" font-size="14px" line-height="1.7">If you did not submit an eKYC request, please contact support immediately.</mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="#050816" border="1px solid rgba(96,165,250,0.18)" border-radius="0 0 16px 16px" padding="18px 28px">
+      <mj-column>
+        <mj-text font-family="Arial, Helvetica, sans-serif" color="#64748b" font-size="12px">{{ project_name }} secure identity and trading access</mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

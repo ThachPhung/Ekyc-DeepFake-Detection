@@ -1,0 +1,34 @@
+<svg width="322" height="80" viewBox="0 0 322 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g filter="url(#glow)">
+    <path d="M13.7 21.24C12.88 19.83 14.1 18.16 15.69 18.53L34.65 22.99C35.58 23.21 36.37 23.83 36.82 24.68L45.87 41.98L60.45 16.59C61.15 15.37 62.69 14.95 63.91 15.64L74.59 21.73C75.86 22.46 76.27 24.09 75.48 25.32L50.67 64.19C48.43 67.7 43.29 67.59 41.19 63.99L13.7 21.24Z" fill="url(#mark-main)"/>
+    <path d="M21.52 24.32L37.48 28.4L46.05 44.75L38.04 57.25L21.52 24.32Z" fill="url(#mark-inner)" opacity=".94"/>
+    <path d="M47.46 42.75L62.26 16.97L72 22.53L49.2 58.25L42.66 46.06L47.46 42.75Z" fill="url(#mark-cyan)"/>
+  </g>
+  <text x="94" y="38" fill="white" font-family="Inter, Arial, Helvetica, sans-serif" font-size="27" font-weight="800" letter-spacing=".2">VinTrade AI</text>
+  <text x="96" y="59" fill="#93C5FD" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" letter-spacing=".9">AI TRADING INTELLIGENCE</text>
+  <defs>
+    <filter id="glow" x="0" y="0" width="91" height="80" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset/>
+      <feGaussianBlur stdDeviation="7"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.137 0 0 0 0 0.827 0 0 0 0 0.933 0 0 0 0.55 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_1" result="shape"/>
+    </filter>
+    <linearGradient id="mark-main" x1="11" y1="16" x2="74" y2="65" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A855F7"/>
+      <stop offset=".45" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="mark-inner" x1="22" y1="23" x2="44" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C084FC"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+    <linearGradient id="mark-cyan" x1="42" y1="17" x2="74" y2="53" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38BDF8"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+  </defs>
+</svg>

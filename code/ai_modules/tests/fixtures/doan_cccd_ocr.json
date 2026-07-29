@@ -1,0 +1,19 @@
+{
+  "name": "doan_cccd_two_sides",
+  "document_type": "CCCD",
+  "front_ocr": "CNG HÒA XÃ HI CHÚ NGHIA VIT NAM\nCĂN CUÓC CÔNG DÂN\nsó/No: 031201000716\nHo và tên I Full name:\nLU'ONG QUÓC DOÀN\nNgày sinh / Date of birth: 30/05/2001\nGiói tính / Sex: Nam Quôc tch / Nationality: Vit Nam\nQuê quán I Place of origin:\n0202\nNoihiie  o e   e\nĐồng Thanh, Kim Đong, Hung Yên\nafuxpiry\nThánh Tông, Máy Chai, Ngô Quyn, HP",
+  "back_ocr": "Dàc dim nhân dng / Personal identification:\nMāt nhièu seo cham\nNgày, tháng, năm / Date, month, year: 29/09/2022\nCUC TRUÒNG CC CÀNH SÁT\nQUAN LY HANH CHÍNH VÈ TRAT TU XÃ HQI\nFOR ADMINISTRATIVE MANAGEMENT OF SOCIAL ORDER\nDIRECTOR GENERAL OF THE POLICE DEPARTMENT\nLeft index finger\nIDVNM2010007163031201000716<<3\n0105307M2605306VNM<<<<<<<<<<<8\nLUONG<<QU0C<D0AN<<<<<<<<<<<<<<",
+  "expected": {
+    "id_number": "031201000716",
+    "full_name_contains": "Lương",
+    "date_of_birth": "30/05/2001",
+    "sex": "Nam",
+    "nationality": "Việt Nam",
+    "place_of_origin_contains": "Kim Động",
+    "place_of_residence_contains": "Ngô Quyền",
+    "place_of_residence_not_contains": "ADMINISTRATIVE",
+    "issue_date": "29/09/2022",
+    "issue_place_contains": "Cảnh sát",
+    "expiry_date": "30/05/2026"
+  }
+}

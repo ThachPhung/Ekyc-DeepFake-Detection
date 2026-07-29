@@ -1,0 +1,39 @@
+# Core
+numpy>=1.24
+opencv-python-headless>=4.8
+pydantic>=2.0
+python-dotenv>=1.0
+redis>=5.0
+psycopg[binary]>=3.1
+cryptography>=42.0.0,<46.0.0
+
+# API
+fastapi>=0.110
+uvicorn[standard]>=0.27
+python-multipart>=0.0.9
+httpx>=0.27
+
+# OCR — PP-OCRv6 via RapidOCR (ONNX Runtime, cấu hình rec model tiếng Việt)
+rapidocr>=3.8.0
+onnxruntime>=1.16
+pillow>=10.0
+
+# OCR stack — YOLO layout + DBNet + VietOCR (tuỳ chọn: EKYC_OCR_ENGINE=vietocr_stack)
+ultralytics>=8.2.0
+vietocr>=0.3.13
+# torch/torchvision: cài trong Dockerfile (wheel CPU theo kiến trúc arm64/amd64)
+# DBNet backend (PaddleOCR DB++). Cài thêm khi dùng EKYC_DBNET_BACKEND=paddle:
+# pip install paddleocr paddlepaddle
+
+# Deepfake HF fallback (tuỳ chọn, mặc định dùng ONNX)
+transformers==4.45.2
+huggingface_hub>=0.23
+
+# Face detection (InsightFace SCRFD + ArcFace — ONNX)
+insightface>=0.7.3
+
+# Speech verification — streaming ASR (ViStreamASR U2 + PhoWhisper refine)
+faster-whisper>=1.0.0
+webrtcvad>=2.0.10
+# Optional high-accuracy streaming (requires flashlight-text build):
+# pip install ViStreamASR

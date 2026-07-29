@@ -1,0 +1,1 @@
+{"verdict":"fake","is_real":false,"is_fake":true,"confidence":0.0283,"manipulation_probability":0.9717,"av_offset_frames":0,"min_distance":4.3862,"sync_confidence":0.3401,"face_detected":true,"detail":"SyncNet offset=0 frames, min_dist=4.386, confidence=0.340","engine":"syncnet_hf"}

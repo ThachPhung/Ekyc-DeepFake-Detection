@@ -1,0 +1,109 @@
+{
+  "document_type": "CCCD",
+  "ocr_confidence": 0.9505,
+  "image_quality_score": 0.6898,
+  "document_face_detected": true,
+  "document_face_confident": true,
+  "document_face_confidence": 0.9,
+  "warnings": [
+    "Pipeline: YOLO layout (cccd_layout_yolov11.pt)",
+    "Ảnh bị mờ (blur). Vui lòng chụp lại rõ nét hơn.",
+    "Mặt sau: Ảnh bị mờ (blur). Vui lòng chụp lại rõ nét hơn.",
+    "LLM đã review tổng thể sau merge OCR (openai/gpt-5.4-mini).",
+    "LLM tokens: prompt=1256, completion=264, total=1520."
+  ],
+  "success": true,
+  "quality_details": {
+    "blur": 0.1434,
+    "brightness": 0.7574,
+    "contrast": 0.5496,
+    "glare": 0.9669,
+    "corners": 1.0,
+    "screenshot": 1.0
+  },
+  "parsed_fields": {
+    "id_number": "038202012897",
+    "full_name": "Phùng Văn Thạch",
+    "date_of_birth": "06/01/2002",
+    "sex": "Nam",
+    "nationality": "Việt Nam",
+    "place_of_origin": "Hoằng Hóa, Thanh Hóa",
+    "place_of_residence": "Thôn Bắc Sơn, Hồng Phú, Hoằng Hóa, Thanh Hóa",
+    "issue_date": "02/07/2020",
+    "issue_place": "Cục Cảnh sát quản lý hành chính về trật tự xã hội",
+    "expiry_date": "06/01/2027",
+    "license_class": null,
+    "passport_number": null,
+    "surname": null,
+    "given_names": null,
+    "extra": {},
+    "field_presence": {
+      "id_number": true,
+      "full_name": true,
+      "date_of_birth": true,
+      "sex": true,
+      "nationality": true,
+      "place_of_origin": true,
+      "place_of_residence": true,
+      "issue_date": true,
+      "issue_place": true,
+      "expiry_date": true,
+      "license_class": false,
+      "passport_number": false,
+      "surname": false,
+      "given_names": false
+    }
+  },
+  "face": {
+    "detected": true,
+    "bbox": [
+      45,
+      489,
+      599,
+      833
+    ],
+    "confidence": 0.95,
+    "quality_score": 0.9,
+    "confident": true,
+    "warnings": [
+      "Portrait lấy từ YOLO layout box."
+    ]
+  },
+  "ocr_line_count": 22,
+  "record_id": "b806e51c-e03b-4dd0-86ec-2fa11ba6c770",
+  "llm_usage": {
+    "extract": {
+      "stage": "extract",
+      "provider": "openai",
+      "model": "gpt-5.4-mini",
+      "prompt_tokens": 500,
+      "completion_tokens": 135,
+      "total_tokens": 635
+    },
+    "review": {
+      "stage": "review",
+      "provider": "openai",
+      "model": "gpt-5.4-mini",
+      "prompt_tokens": 756,
+      "completion_tokens": 129,
+      "total_tokens": 885
+    },
+    "total_prompt_tokens": 1256,
+    "total_completion_tokens": 264,
+    "total_tokens": 1520,
+    "call_count": 2
+  },
+  "timings_ms": {
+    "front_orient": 3597.83,
+    "front_quality": 455.04,
+    "back_orient": 446.24,
+    "back_quality": 410.62,
+    "front_yolo_ocr": 16607.09,
+    "back_yolo_ocr": 5717.38,
+    "parse": 14.96,
+    "llm_extract": 6996.79,
+    "llm_review": 1333.88,
+    "total": 35875.14
+  },
+  "result_file": "/app/data/record/ekyc-document-20260710-171709-312f4696.json"
+}

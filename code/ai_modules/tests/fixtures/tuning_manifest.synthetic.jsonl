@@ -1,0 +1,8 @@
+{"id":"genuine_clear_001","label":"genuine","risk_score":0.12,"reason_codes":[]}
+{"id":"genuine_low_light_002","label":"genuine","risk_score":0.31,"reason_codes":[]}
+{"id":"genuine_review_edge_003","label":"genuine","risk_score":0.43,"reason_codes":["camera_injection"]}
+{"id":"deepfake_face_swap_001","label":"deepfake","risk_score":0.82,"reason_codes":["deepfake_frames","temporal_identity_drift"]}
+{"id":"replay_screen_001","label":"replay","risk_score":0.76,"reason_codes":["replay_attack","camera_injection"]}
+{"id":"camera_injection_001","label":"camera_injection","risk_score":0.69,"reason_codes":["camera_injection"]}
+{"id":"deepfake_soft_002","label":"deepfake","risk_score":0.58,"reason_codes":["deepfake_frames"]}
+{"id":"replay_low_motion_002","label":"replay","risk_score":0.61,"reason_codes":["replay_attack"]}

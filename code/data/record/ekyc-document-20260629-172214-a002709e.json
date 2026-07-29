@@ -1,0 +1,93 @@
+{
+  "document_type": "CCCD",
+  "ocr_confidence": 0.9363,
+  "image_quality_score": 0.5959,
+  "document_face_detected": true,
+  "document_face_confident": false,
+  "document_face_confidence": 0.5058,
+  "warnings": [
+    "Ảnh bị mờ (blur). Vui lòng chụp lại rõ nét hơn.",
+    "Không phát hiện đủ 4 góc giấy tờ.",
+    "Ảnh chân dung trên giấy tờ bị mờ, cần chụp lại rõ nét hơn.",
+    "Độ rõ khuôn mặt trên giấy tờ (0.51) dưới ngưỡng 0.55.",
+    "Mặt sau: Ảnh bị mờ (blur). Vui lòng chụp lại rõ nét hơn.",
+    "Mặt sau: Không phát hiện đủ 4 góc giấy tờ.",
+    "Trích xuất LLM (openai/gpt-4o-mini) đã tinh chỉnh fields."
+  ],
+  "success": true,
+  "quality_details": {
+    "blur": 0.088,
+    "brightness": 1.0,
+    "contrast": 0.6148,
+    "glare": 1.0,
+    "corners": 0.4,
+    "screenshot": 1.0
+  },
+  "parsed_fields": {
+    "id_number": "********0716",
+    "full_name": "[redacted]",
+    "date_of_birth": "[redacted]",
+    "sex": "Nam",
+    "nationality": "Việt Nam",
+    "place_of_origin": "[redacted]",
+    "place_of_residence": "[redacted]",
+    "issue_date": "29/09/2022",
+    "issue_place": "[redacted]",
+    "expiry_date": null,
+    "license_class": null,
+    "passport_number": null,
+    "surname": null,
+    "given_names": null,
+    "extra": {},
+    "field_presence": {
+      "id_number": true,
+      "full_name": true,
+      "date_of_birth": true,
+      "sex": true,
+      "nationality": true,
+      "place_of_origin": true,
+      "place_of_residence": true,
+      "issue_date": true,
+      "issue_place": true,
+      "expiry_date": false,
+      "license_class": false,
+      "passport_number": false,
+      "surname": false,
+      "given_names": false
+    }
+  },
+  "face": {
+    "detected": true,
+    "bbox": [
+      696,
+      545,
+      240,
+      240
+    ],
+    "confidence": 0.6,
+    "quality_score": 0.5058,
+    "confident": false,
+    "warnings": [
+      "Ảnh chân dung trên giấy tờ bị mờ, cần chụp lại rõ nét hơn.",
+      "Độ rõ khuôn mặt trên giấy tờ (0.51) dưới ngưỡng 0.55."
+    ]
+  },
+  "ocr_line_count": 32,
+  "record_id": "144f408d-1522-41fc-9bb4-bf46471042e1",
+  "private_data_note": "Thông tin cá nhân được lưu riêng. Backend dùng GET /api/v1/document/records/{record_id} với API key nội bộ.",
+  "timings_ms": {
+    "front_orient": 0.02,
+    "front_quality": 31.86,
+    "front_ocr": 1844.26,
+    "front_parse": 7.22,
+    "front_face_extract": 119.79,
+    "front_total": 2029.49,
+    "back_orient": 0.02,
+    "back_quality": 30.68,
+    "back_ocr": 1333.3,
+    "back_parse": 0.42,
+    "llm_extract": 2928.06,
+    "total": 6346.22
+  },
+  "result_file": "/Users/thachphung/Documents/AI Thực Chiến/Project group/C2-App-036/code/data/record/ekyc-document-20260629-172214-a002709e.json"
+}

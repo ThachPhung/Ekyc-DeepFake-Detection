@@ -1,0 +1,9 @@
+[project]
+name = "ekyc-document-ai"
+version = "1.0.0"
+description = "eKYC document quality, OCR, parsing, face extraction"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

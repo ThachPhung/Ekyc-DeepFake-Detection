@@ -1,0 +1,568 @@
+{
+  "record_id": "a90ef74b-2fec-4be2-8743-0b1246df7682",
+  "created_at": "2026-07-10T17:18:39+00:00",
+  "record_type": "ekyc-video",
+  "payload": {
+    "success": false,
+    "decision": "failed",
+    "frames_analyzed": 35,
+    "face_frames": 35,
+    "challenge": "blink",
+    "best_frame_index": 133,
+    "best_live_face": {
+      "detected": true,
+      "face_count": 1,
+      "bbox": [
+        244,
+        284,
+        219,
+        305
+      ],
+      "confidence": 0.7531,
+      "embedding_model": "insightface/buffalo_l",
+      "embedding_ready": true,
+      "portrait_ok": false
+    },
+    "quality_score": 0.7647,
+    "quality_details": {
+      "blur": 1.0,
+      "pose": 0.5646,
+      "illumination": 1.0,
+      "face_coverage": 0.3305,
+      "centered": 0.8262
+    },
+    "passive_liveness": {
+      "score": 0.5277,
+      "passed": false,
+      "method": "minifasnet_v2_se_int8",
+      "warnings": []
+    },
+    "active_liveness": [
+      {
+        "challenge": "blink",
+        "passed": true,
+        "confidence": 1.0
+      }
+    ],
+    "matching": {
+      "similarity": 0.4768,
+      "decision": "consider",
+      "thresholds": {
+        "match": 0.6,
+        "consider": 0.4
+      },
+      "reason": "Độ tương đồng ArcFace nằm trong vùng cần backend xem xét."
+    },
+    "voice_verification": null,
+    "risk": {
+      "score": 0.2906,
+      "decision": "match",
+      "reason_codes": [
+        "lipsync_deepfake"
+      ],
+      "weights": {
+        "deepfake": 0.2778,
+        "identity": 0.2444,
+        "replay": 0.2,
+        "camera": 0.1111,
+        "lipsync": 0.1667
+      },
+      "evidence": [
+        {
+          "signal": "deepfake",
+          "score": 0.1498,
+          "weight": 0.2778,
+          "contribution": 0.0416,
+          "threshold": 0.68,
+          "triggered": false,
+          "reason_code": "deepfake_frames",
+          "method": "deepfake_vit_onnx_hf_preprocess",
+          "evidence": {
+            "mean_score": 0.3661,
+            "max_score": 0.5771,
+            "suspicious_frame_count": 0,
+            "suspicious_frames": []
+          }
+        },
+        {
+          "signal": "lipsync",
+          "score": 0.9717,
+          "weight": 0.1667,
+          "contribution": 0.162,
+          "threshold": 0.65,
+          "triggered": true,
+          "reason_code": "lipsync_deepfake",
+          "method": "syncnet_lipsync",
+          "evidence": {
+            "verdict": "fake",
+            "manipulation_probability": 0.9717,
+            "authenticity_confidence": 0.0283,
+            "is_fake": true,
+            "detail": "SyncNet offset=0 frames, min_dist=4.386, confidence=0.340"
+          }
+        },
+        {
+          "signal": "identity",
+          "score": 0.2224,
+          "weight": 0.2444,
+          "contribution": 0.0544,
+          "threshold": 0.45,
+          "triggered": false,
+          "reason_code": "temporal_identity_drift",
+          "method": "arcface_embedding_drift",
+          "evidence": {
+            "mean_drift": 0.0475,
+            "max_drift": 0.1241,
+            "suspicious_pair_count": 0,
+            "embedding_frames": 35
+          }
+        },
+        {
+          "signal": "replay",
+          "score": 0.0976,
+          "weight": 0.2,
+          "contribution": 0.0195,
+          "threshold": 0.62,
+          "triggered": false,
+          "reason_code": "replay_attack",
+          "method": null,
+          "evidence": {
+            "moire_score": 0.1539,
+            "flicker_score": 0.197,
+            "duplication_score": 0.3375,
+            "duplicate_pairs": 32,
+            "confirmed": false,
+            "face_motion_score": 1.0
+          }
+        },
+        {
+          "signal": "camera",
+          "score": 0.1181,
+          "weight": 0.1111,
+          "contribution": 0.0131,
+          "threshold": 0.6,
+          "triggered": false,
+          "reason_code": "camera_injection",
+          "method": null,
+          "evidence": {
+            "metadata_score": 0.0,
+            "challenge_timing_score": 0.0,
+            "duplication_score": 0.3375
+          }
+        }
+      ],
+      "top_reasons": [
+        {
+          "signal": "lipsync",
+          "reason_code": "lipsync_deepfake",
+          "score": 0.9717,
+          "contribution": 0.162,
+          "triggered": true,
+          "message": "Phân tích lip-sync phát hiện dấu hiệu video giả (Wav2Lip/deepfake).",
+          "evidence": {
+            "verdict": "fake",
+            "manipulation_probability": 0.9717,
+            "authenticity_confidence": 0.0283,
+            "is_fake": true,
+            "detail": "SyncNet offset=0 frames, min_dist=4.386, confidence=0.340"
+          }
+        }
+      ],
+      "deepfake": {
+        "score": 0.1498,
+        "mean_score": 0.3661,
+        "max_score": 0.5771,
+        "suspicious_frame_count": 0,
+        "suspicious_frames": [],
+        "frames": [
+          {
+            "frame_index": 0,
+            "score": 0.3873,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 7,
+            "score": 0.4079,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 14,
+            "score": 0.4266,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 21,
+            "score": 0.4238,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 28,
+            "score": 0.123,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 35,
+            "score": 0.1232,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 42,
+            "score": 0.3865,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 49,
+            "score": 0.5342,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 56,
+            "score": 0.3893,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 63,
+            "score": 0.424,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 70,
+            "score": 0.1364,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 77,
+            "score": 0.3738,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 84,
+            "score": 0.39,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 91,
+            "score": 0.3557,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 98,
+            "score": 0.3831,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 105,
+            "score": 0.3912,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 112,
+            "score": 0.4479,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 119,
+            "score": 0.4488,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 126,
+            "score": 0.4864,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 133,
+            "score": 0.466,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 140,
+            "score": 0.1323,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 147,
+            "score": 0.2003,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 154,
+            "score": 0.5771,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 161,
+            "score": 0.4939,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 168,
+            "score": 0.4853,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 175,
+            "score": 0.1065,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 182,
+            "score": 0.3764,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 189,
+            "score": 0.3776,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 196,
+            "score": 0.3783,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 203,
+            "score": 0.4306,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 210,
+            "score": 0.3048,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 217,
+            "score": 0.3028,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 224,
+            "score": 0.3119,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 231,
+            "score": 0.3858,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          },
+          {
+            "frame_index": 238,
+            "score": 0.4453,
+            "suspicious": false,
+            "method": "deepfake_vit_onnx_hf_preprocess"
+          }
+        ],
+        "method": "deepfake_vit_onnx_hf_preprocess",
+        "warnings": []
+      },
+      "temporal_identity": {
+        "score": 0.2224,
+        "mean_drift": 0.0475,
+        "max_drift": 0.1241,
+        "suspicious_pair_count": 0,
+        "embedding_frames": 35,
+        "method": "arcface_embedding_drift",
+        "warnings": []
+      },
+      "replay_attack": {
+        "score": 0.0976,
+        "moire_score": 0.1539,
+        "flicker_score": 0.197,
+        "duplication_score": 0.3375,
+        "duplicate_pairs": 32,
+        "confirmed": false,
+        "face_motion_score": 1.0,
+        "warnings": []
+      },
+      "camera_injection": {
+        "score": 0.1181,
+        "metadata_score": 0.0,
+        "challenge_timing_score": 0.0,
+        "duplication_score": 0.3375,
+        "warnings": []
+      },
+      "lipsync": {
+        "score": 0.9717,
+        "manipulation_probability": 0.9717,
+        "authenticity_confidence": 0.0283,
+        "verdict": "fake",
+        "is_fake": true,
+        "passed": false,
+        "skipped": false,
+        "method": "syncnet_lipsync",
+        "warnings": [],
+        "detail": "SyncNet offset=0 frames, min_dist=4.386, confidence=0.340"
+      }
+    },
+    "decision_reasons": [
+      {
+        "code": "portrait_invalid",
+        "message": "Khuôn mặt live không đạt điều kiện chân dung trong khung hình.",
+        "severity": "block",
+        "source": "biometric"
+      },
+      {
+        "code": "passive_liveness_review",
+        "message": "Passive liveness chưa đạt ngưỡng tự động pass.",
+        "severity": "warning",
+        "source": "biometric"
+      },
+      {
+        "code": "lipsync_deepfake",
+        "message": "Phân tích lip-sync phát hiện dấu hiệu video giả (Wav2Lip/deepfake).",
+        "severity": "warning",
+        "source": "biometric"
+      },
+      {
+        "code": "face_match_review",
+        "message": "Độ tương đồng khuôn mặt nằm trong vùng cần review.",
+        "severity": "warning",
+        "source": "biometric"
+      }
+    ],
+    "evidence_artifacts": {
+      "challenge": "blink",
+      "frames_sampled": 35,
+      "sampled_frame_indices": [
+        0,
+        7,
+        14,
+        21,
+        28,
+        35,
+        42,
+        49,
+        56,
+        63,
+        70,
+        77,
+        84,
+        91,
+        98,
+        105,
+        112,
+        119,
+        126,
+        133,
+        140,
+        147,
+        154,
+        161,
+        168,
+        175,
+        182,
+        189,
+        196,
+        203
+      ],
+      "face_frame_indices": [
+        0,
+        7,
+        14,
+        21,
+        28,
+        35,
+        42,
+        49,
+        56,
+        63,
+        70,
+        77,
+        84,
+        91,
+        98,
+        105,
+        112,
+        119,
+        126,
+        133,
+        140,
+        147,
+        154,
+        161,
+        168,
+        175,
+        182,
+        189,
+        196,
+        203
+      ],
+      "best_frame_index": 133,
+      "best_face_bbox": [
+        244,
+        284,
+        219,
+        305
+      ],
+      "video_metadata": {
+        "fps": 24.0,
+        "frame_count": 241,
+        "duration_ms": 10041.666666666666
+      },
+      "suspicious_frame_indices": [],
+      "top_risk_reasons": [
+        {
+          "signal": "lipsync",
+          "reason_code": "lipsync_deepfake",
+          "score": 0.9717,
+          "contribution": 0.162,
+          "triggered": true,
+          "message": "Phân tích lip-sync phát hiện dấu hiệu video giả (Wav2Lip/deepfake).",
+          "evidence": {
+            "verdict": "fake",
+            "manipulation_probability": 0.9717,
+            "authenticity_confidence": 0.0283,
+            "is_fake": true,
+            "detail": "SyncNet offset=0 frames, min_dist=4.386, confidence=0.340"
+          }
+        }
+      ]
+    },
+    "timings_ms": {
+      "doc_face_detect": 2978.56,
+      "frame_extract": 23664.46,
+      "liveness": 45.21,
+      "matching": 0.18,
+      "risk": 62665.77,
+      "total": 89354.36
+    },
+    "warnings": [
+      "Video cần thấy đầy đủ khuôn mặt chân dung trong phần lớn thời lượng.",
+      "Risk engine phát hiện signal bất thường: lipsync_deepfake."
+    ]
+  }
+}

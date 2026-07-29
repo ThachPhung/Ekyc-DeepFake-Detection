@@ -1,0 +1,923 @@
+{
+  "record_id": "b642e047-14fc-48ed-a09e-1a7dbda6663f",
+  "created_at": "2026-07-02T16:37:40+00:00",
+  "record_type": "ekyc-verify",
+  "payload": {
+    "success": false,
+    "decision": "consider",
+    "similarity": 0.5846,
+    "front_document": {
+      "document_type": "CCCD",
+      "ocr_confidence": 0.9621,
+      "image_quality_score": 0.6898,
+      "document_face_detected": true,
+      "document_face_confident": true,
+      "document_face_confidence": 0.9,
+      "warnings": [
+        "Pipeline: YOLO layout (cccd_layout_yolov11.pt)",
+        "Ảnh bị mờ (blur). Vui lòng chụp lại rõ nét hơn.",
+        "Mặt sau: Ảnh bị mờ (blur). Vui lòng chụp lại rõ nét hơn.",
+        "LLM đã review tổng thể sau merge OCR (openai/gpt-5.4-mini)."
+      ],
+      "success": true,
+      "quality_details": {
+        "blur": 0.1437,
+        "brightness": 0.7573,
+        "contrast": 0.5496,
+        "glare": 0.9666,
+        "corners": 1.0,
+        "screenshot": 1.0
+      },
+      "parsed_fields": {
+        "id_number": "038202012897",
+        "full_name": "Phùng Văn Thạch",
+        "date_of_birth": "06/01/2002",
+        "sex": "Nam",
+        "nationality": "Việt Nam",
+        "place_of_origin": "Hoằng Hóa, Thanh Hóa",
+        "place_of_residence": "Thôn Bắc Sơn, Hồng Phú, Hoằng Hóa, Thanh Hóa",
+        "issue_date": "02/07/2020",
+        "issue_place": "Cục Cảnh sát quản lý hành chính về trật tự xã hội",
+        "expiry_date": "06/01/2027",
+        "license_class": null,
+        "passport_number": null,
+        "surname": null,
+        "given_names": null,
+        "extra": {},
+        "field_presence": {
+          "id_number": true,
+          "full_name": true,
+          "date_of_birth": true,
+          "sex": true,
+          "nationality": true,
+          "place_of_origin": true,
+          "place_of_residence": true,
+          "issue_date": true,
+          "issue_place": true,
+          "expiry_date": true,
+          "license_class": false,
+          "passport_number": false,
+          "surname": false,
+          "given_names": false
+        }
+      },
+      "face": {
+        "detected": true,
+        "bbox": [
+          45,
+          489,
+          599,
+          832
+        ],
+        "confidence": 0.95,
+        "quality_score": 0.9,
+        "confident": true,
+        "warnings": [
+          "Portrait lấy từ YOLO layout box."
+        ]
+      },
+      "ocr_line_count": 20,
+      "record_id": "e82c5ba8-f0cc-4d2a-9979-1ca772e29a8f",
+      "timings_ms": {
+        "front_orient": 947.6,
+        "front_quality": 144.7,
+        "back_orient": 129.72,
+        "back_quality": 134.04,
+        "front_yolo_ocr": 6540.64,
+        "back_yolo_ocr": 2539.44,
+        "parse": 8.03,
+        "llm_extract": 2558.97,
+        "llm_review": 1611.83,
+        "total": 14818.63
+      }
+    },
+    "video": {
+      "success": false,
+      "decision": "consider",
+      "frames_analyzed": 36,
+      "face_frames": 36,
+      "challenge": "blink",
+      "best_frame_index": 140,
+      "best_live_face": {
+        "detected": true,
+        "face_count": 1,
+        "bbox": [
+          198,
+          583,
+          671,
+          927
+        ],
+        "confidence": 0.8907,
+        "embedding_model": "insightface/buffalo_l",
+        "embedding_ready": true,
+        "portrait_ok": true
+      },
+      "quality_score": 0.7056,
+      "quality_details": {
+        "blur": 0.0,
+        "pose": 0.955,
+        "illumination": 1.0,
+        "face_coverage": 0.8223,
+        "centered": 0.9567
+      },
+      "passive_liveness": {
+        "score": 1.0,
+        "passed": true,
+        "method": "minifasnet_v2_onnx",
+        "warnings": []
+      },
+      "active_liveness": [
+        {
+          "challenge": "blink",
+          "passed": true,
+          "confidence": 1.0
+        }
+      ],
+      "matching": {
+        "similarity": 0.5846,
+        "decision": "consider",
+        "thresholds": {
+          "match": 0.6,
+          "consider": 0.4
+        },
+        "reason": "Độ tương đồng ArcFace nằm trong vùng cần backend xem xét."
+      },
+      "voice_verification": null,
+      "risk": {
+        "score": 0.3671,
+        "decision": "match",
+        "reason_codes": [
+          "replay_attack"
+        ],
+        "weights": {
+          "deepfake": 0.3529,
+          "identity": 0.2588,
+          "replay": 0.2118,
+          "camera": 0.1765
+        },
+        "evidence": [
+          {
+            "signal": "deepfake",
+            "score": 0.1208,
+            "weight": 0.3529,
+            "contribution": 0.0426,
+            "threshold": 0.68,
+            "triggered": false,
+            "reason_code": "deepfake_frames",
+            "method": "deepfake_vit_onnx_hf_preprocess",
+            "evidence": {
+              "mean_score": 0.1178,
+              "max_score": 0.1868,
+              "suspicious_frame_count": 0,
+              "suspicious_frames": []
+            }
+          },
+          {
+            "signal": "identity",
+            "score": 0.3531,
+            "weight": 0.2588,
+            "contribution": 0.0914,
+            "threshold": 0.45,
+            "triggered": false,
+            "reason_code": "temporal_identity_drift",
+            "method": "arcface_embedding_drift",
+            "evidence": {
+              "mean_drift": 0.0678,
+              "max_drift": 0.2122,
+              "suspicious_pair_count": 0,
+              "embedding_frames": 36
+            }
+          },
+          {
+            "signal": "replay",
+            "score": 0.8276,
+            "weight": 0.2118,
+            "contribution": 0.1753,
+            "threshold": 0.62,
+            "triggered": true,
+            "reason_code": "replay_attack",
+            "method": null,
+            "evidence": {
+              "moire_score": 1.0,
+              "flicker_score": 0.1319,
+              "duplication_score": 0.9351,
+              "duplicate_pairs": 18
+            }
+          },
+          {
+            "signal": "camera",
+            "score": 0.3273,
+            "weight": 0.1765,
+            "contribution": 0.0578,
+            "threshold": 0.6,
+            "triggered": false,
+            "reason_code": "camera_injection",
+            "method": null,
+            "evidence": {
+              "metadata_score": 0.0,
+              "challenge_timing_score": 0.0,
+              "duplication_score": 0.9351
+            }
+          }
+        ],
+        "top_reasons": [
+          {
+            "signal": "replay",
+            "reason_code": "replay_attack",
+            "score": 0.8276,
+            "contribution": 0.1753,
+            "triggered": true,
+            "message": "Video có dấu hiệu quay lại màn hình hoặc lặp frame.",
+            "evidence": {
+              "moire_score": 1.0,
+              "flicker_score": 0.1319,
+              "duplication_score": 0.9351,
+              "duplicate_pairs": 18
+            }
+          },
+          {
+            "signal": "identity",
+            "reason_code": "temporal_identity_drift",
+            "score": 0.3531,
+            "contribution": 0.0914,
+            "triggered": false,
+            "message": "Embedding khuôn mặt thay đổi bất thường giữa các frame.",
+            "evidence": {
+              "mean_drift": 0.0678,
+              "max_drift": 0.2122,
+              "suspicious_pair_count": 0,
+              "embedding_frames": 36
+            }
+          }
+        ],
+        "deepfake": {
+          "score": 0.1208,
+          "mean_score": 0.1178,
+          "max_score": 0.1868,
+          "suspicious_frame_count": 0,
+          "suspicious_frames": [],
+          "frames": [
+            {
+              "frame_index": 0,
+              "score": 0.0978,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 5,
+              "score": 0.1266,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 10,
+              "score": 0.1,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 15,
+              "score": 0.1127,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 20,
+              "score": 0.1089,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 25,
+              "score": 0.1055,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 30,
+              "score": 0.1075,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 35,
+              "score": 0.1094,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 40,
+              "score": 0.1135,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 45,
+              "score": 0.1197,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 50,
+              "score": 0.1016,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 55,
+              "score": 0.119,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 60,
+              "score": 0.1522,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 65,
+              "score": 0.1787,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 70,
+              "score": 0.1723,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 75,
+              "score": 0.1868,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 80,
+              "score": 0.1586,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 85,
+              "score": 0.1265,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 90,
+              "score": 0.113,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 95,
+              "score": 0.1096,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 100,
+              "score": 0.0948,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 105,
+              "score": 0.0886,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 110,
+              "score": 0.0914,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 115,
+              "score": 0.1105,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 120,
+              "score": 0.1028,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 125,
+              "score": 0.1179,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 130,
+              "score": 0.1009,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 135,
+              "score": 0.1044,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 140,
+              "score": 0.1011,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 145,
+              "score": 0.1228,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 150,
+              "score": 0.1111,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 155,
+              "score": 0.1278,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 160,
+              "score": 0.1218,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 165,
+              "score": 0.1096,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 170,
+              "score": 0.1082,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            },
+            {
+              "frame_index": 175,
+              "score": 0.1085,
+              "suspicious": false,
+              "method": "deepfake_vit_onnx_hf_preprocess"
+            }
+          ],
+          "method": "deepfake_vit_onnx_hf_preprocess",
+          "warnings": []
+        },
+        "temporal_identity": {
+          "score": 0.3531,
+          "mean_drift": 0.0678,
+          "max_drift": 0.2122,
+          "suspicious_pair_count": 0,
+          "embedding_frames": 36,
+          "method": "arcface_embedding_drift",
+          "warnings": []
+        },
+        "replay_attack": {
+          "score": 0.8276,
+          "moire_score": 1.0,
+          "flicker_score": 0.1319,
+          "duplication_score": 0.9351,
+          "duplicate_pairs": 18,
+          "warnings": [
+            "Phát hiện pattern tần số cao nghi moiré khi quay lại màn hình.",
+            "Nhiều frame gần như trùng lặp, nghi replay hoặc stream bị inject."
+          ]
+        },
+        "camera_injection": {
+          "score": 0.3273,
+          "metadata_score": 0.0,
+          "challenge_timing_score": 0.0,
+          "duplication_score": 0.9351,
+          "warnings": [
+            "Frame duplication làm tăng rủi ro camera injection."
+          ]
+        }
+      },
+      "decision_reasons": [
+        {
+          "code": "replay_attack",
+          "message": "Video có dấu hiệu quay lại màn hình hoặc lặp frame.",
+          "severity": "warning",
+          "source": "biometric"
+        },
+        {
+          "code": "face_match_review",
+          "message": "Độ tương đồng khuôn mặt nằm trong vùng cần review.",
+          "severity": "warning",
+          "source": "biometric"
+        }
+      ],
+      "evidence_artifacts": {
+        "challenge": "blink",
+        "frames_sampled": 36,
+        "sampled_frame_indices": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35,
+          40,
+          45,
+          50,
+          55,
+          60,
+          65,
+          70,
+          75,
+          80,
+          85,
+          90,
+          95,
+          100,
+          105,
+          110,
+          115,
+          120,
+          125,
+          130,
+          135,
+          140,
+          145
+        ],
+        "face_frame_indices": [
+          0,
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35,
+          40,
+          45,
+          50,
+          55,
+          60,
+          65,
+          70,
+          75,
+          80,
+          85,
+          90,
+          95,
+          100,
+          105,
+          110,
+          115,
+          120,
+          125,
+          130,
+          135,
+          140,
+          145
+        ],
+        "best_frame_index": 140,
+        "best_face_bbox": [
+          198,
+          583,
+          671,
+          927
+        ],
+        "video_metadata": {
+          "fps": 30.0,
+          "frame_count": 179,
+          "duration_ms": 5966.666666666667
+        },
+        "suspicious_frame_indices": [],
+        "top_risk_reasons": [
+          {
+            "signal": "replay",
+            "reason_code": "replay_attack",
+            "score": 0.8276,
+            "contribution": 0.1753,
+            "triggered": true,
+            "message": "Video có dấu hiệu quay lại màn hình hoặc lặp frame.",
+            "evidence": {
+              "moire_score": 1.0,
+              "flicker_score": 0.1319,
+              "duplication_score": 0.9351,
+              "duplicate_pairs": 18
+            }
+          },
+          {
+            "signal": "identity",
+            "reason_code": "temporal_identity_drift",
+            "score": 0.3531,
+            "contribution": 0.0914,
+            "triggered": false,
+            "message": "Embedding khuôn mặt thay đổi bất thường giữa các frame.",
+            "evidence": {
+              "mean_drift": 0.0678,
+              "max_drift": 0.2122,
+              "suspicious_pair_count": 0,
+              "embedding_frames": 36
+            }
+          }
+        ]
+      },
+      "timings_ms": {
+        "doc_face_detect": 2211.04,
+        "frame_extract": 7106.0,
+        "liveness": 19.42,
+        "matching": 0.04,
+        "risk": 3820.55,
+        "total": 13157.11
+      },
+      "warnings": [
+        "Risk engine phát hiện signal bất thường: replay_attack.",
+        "Phát hiện pattern tần số cao nghi moiré khi quay lại màn hình.",
+        "Nhiều frame gần như trùng lặp, nghi replay hoặc stream bị inject.",
+        "Frame duplication làm tăng rủi ro camera injection."
+      ]
+    },
+    "ai_summary": {
+      "document": {
+        "document_type": "CCCD",
+        "ocr_confidence": 0.9621,
+        "image_quality_score": 0.6898,
+        "document_face_detected": true,
+        "document_face_confident": true
+      },
+      "biometric": {
+        "quality_score": 0.7056,
+        "passive_liveness_score": 1.0,
+        "passive_liveness_passed": true,
+        "active_liveness": [
+          {
+            "challenge": "blink",
+            "passed": true,
+            "confidence": 1.0
+          }
+        ],
+        "face_similarity": 0.5846,
+        "face_match_decision": "consider",
+        "voice_verification": null,
+        "decision_reasons": [
+          {
+            "code": "replay_attack",
+            "message": "Video có dấu hiệu quay lại màn hình hoặc lặp frame.",
+            "severity": "warning",
+            "source": "biometric"
+          },
+          {
+            "code": "face_match_review",
+            "message": "Độ tương đồng khuôn mặt nằm trong vùng cần review.",
+            "severity": "warning",
+            "source": "biometric"
+          }
+        ],
+        "evidence_artifacts": {
+          "challenge": "blink",
+          "frames_sampled": 36,
+          "sampled_frame_indices": [
+            0,
+            5,
+            10,
+            15,
+            20,
+            25,
+            30,
+            35,
+            40,
+            45,
+            50,
+            55,
+            60,
+            65,
+            70,
+            75,
+            80,
+            85,
+            90,
+            95,
+            100,
+            105,
+            110,
+            115,
+            120,
+            125,
+            130,
+            135,
+            140,
+            145
+          ],
+          "face_frame_indices": [
+            0,
+            5,
+            10,
+            15,
+            20,
+            25,
+            30,
+            35,
+            40,
+            45,
+            50,
+            55,
+            60,
+            65,
+            70,
+            75,
+            80,
+            85,
+            90,
+            95,
+            100,
+            105,
+            110,
+            115,
+            120,
+            125,
+            130,
+            135,
+            140,
+            145
+          ],
+          "best_frame_index": 140,
+          "best_face_bbox": [
+            198,
+            583,
+            671,
+            927
+          ],
+          "video_metadata": {
+            "fps": 30.0,
+            "frame_count": 179,
+            "duration_ms": 5966.666666666667
+          },
+          "suspicious_frame_indices": [],
+          "top_risk_reasons": [
+            {
+              "signal": "replay",
+              "reason_code": "replay_attack",
+              "score": 0.8276,
+              "contribution": 0.1753,
+              "triggered": true,
+              "message": "Video có dấu hiệu quay lại màn hình hoặc lặp frame.",
+              "evidence": {
+                "moire_score": 1.0,
+                "flicker_score": 0.1319,
+                "duplication_score": 0.9351,
+                "duplicate_pairs": 18
+              }
+            },
+            {
+              "signal": "identity",
+              "reason_code": "temporal_identity_drift",
+              "score": 0.3531,
+              "contribution": 0.0914,
+              "triggered": false,
+              "message": "Embedding khuôn mặt thay đổi bất thường giữa các frame.",
+              "evidence": {
+                "mean_drift": 0.0678,
+                "max_drift": 0.2122,
+                "suspicious_pair_count": 0,
+                "embedding_frames": 36
+              }
+            }
+          ]
+        }
+      },
+      "risk": {
+        "score": 0.3671,
+        "decision": "match",
+        "reason_codes": [
+          "replay_attack"
+        ],
+        "top_reasons": [
+          {
+            "signal": "replay",
+            "reason_code": "replay_attack",
+            "score": 0.8276,
+            "contribution": 0.1753,
+            "triggered": true,
+            "message": "Video có dấu hiệu quay lại màn hình hoặc lặp frame.",
+            "evidence": {
+              "moire_score": 1.0,
+              "flicker_score": 0.1319,
+              "duplication_score": 0.9351,
+              "duplicate_pairs": 18
+            }
+          },
+          {
+            "signal": "identity",
+            "reason_code": "temporal_identity_drift",
+            "score": 0.3531,
+            "contribution": 0.0914,
+            "triggered": false,
+            "message": "Embedding khuôn mặt thay đổi bất thường giữa các frame.",
+            "evidence": {
+              "mean_drift": 0.0678,
+              "max_drift": 0.2122,
+              "suspicious_pair_count": 0,
+              "embedding_frames": 36
+            }
+          }
+        ],
+        "weights": {
+          "deepfake": 0.3529,
+          "identity": 0.2588,
+          "replay": 0.2118,
+          "camera": 0.1765
+        },
+        "evidence": [
+          {
+            "signal": "deepfake",
+            "score": 0.1208,
+            "weight": 0.3529,
+            "contribution": 0.0426,
+            "threshold": 0.68,
+            "triggered": false,
+            "reason_code": "deepfake_frames",
+            "method": "deepfake_vit_onnx_hf_preprocess",
+            "evidence": {
+              "mean_score": 0.1178,
+              "max_score": 0.1868,
+              "suspicious_frame_count": 0,
+              "suspicious_frames": []
+            }
+          },
+          {
+            "signal": "identity",
+            "score": 0.3531,
+            "weight": 0.2588,
+            "contribution": 0.0914,
+            "threshold": 0.45,
+            "triggered": false,
+            "reason_code": "temporal_identity_drift",
+            "method": "arcface_embedding_drift",
+            "evidence": {
+              "mean_drift": 0.0678,
+              "max_drift": 0.2122,
+              "suspicious_pair_count": 0,
+              "embedding_frames": 36
+            }
+          },
+          {
+            "signal": "replay",
+            "score": 0.8276,
+            "weight": 0.2118,
+            "contribution": 0.1753,
+            "threshold": 0.62,
+            "triggered": true,
+            "reason_code": "replay_attack",
+            "method": null,
+            "evidence": {
+              "moire_score": 1.0,
+              "flicker_score": 0.1319,
+              "duplication_score": 0.9351,
+              "duplicate_pairs": 18
+            }
+          },
+          {
+            "signal": "camera",
+            "score": 0.3273,
+            "weight": 0.1765,
+            "contribution": 0.0578,
+            "threshold": 0.6,
+            "triggered": false,
+            "reason_code": "camera_injection",
+            "method": null,
+            "evidence": {
+              "metadata_score": 0.0,
+              "challenge_timing_score": 0.0,
+              "duplication_score": 0.9351
+            }
+          }
+        ]
+      }
+    },
+    "warnings": [
+      "Pipeline: YOLO layout (cccd_layout_yolov11.pt)",
+      "Ảnh bị mờ (blur). Vui lòng chụp lại rõ nét hơn.",
+      "Mặt sau: Ảnh bị mờ (blur). Vui lòng chụp lại rõ nét hơn.",
+      "LLM đã review tổng thể sau merge OCR (openai/gpt-5.4-mini).",
+      "Risk engine phát hiện signal bất thường: replay_attack.",
+      "Phát hiện pattern tần số cao nghi moiré khi quay lại màn hình.",
+      "Nhiều frame gần như trùng lặp, nghi replay hoặc stream bị inject.",
+      "Frame duplication làm tăng rủi ro camera injection."
+    ],
+    "timings_ms": {
+      "document_total": 14818.63,
+      "video_total": 13157.11,
+      "api_total": 27990.12
+    }
+  }
+}
