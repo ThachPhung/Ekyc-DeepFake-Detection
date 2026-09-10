@@ -1,7 +1,3 @@
-# Starter Code Template — Cohort 2
-
-Empty starter template for AI20K Build Cohort 2 team repositories. Includes pre-configured AI usage logging hooks for Claude Code, Cursor, Codex, Gemini CLI, Antigravity, and GitHub Copilot.
-
 ## Structure
 
 ```
